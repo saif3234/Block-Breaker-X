@@ -11,7 +11,7 @@ class Game:
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
         pygame.display.set_caption('Assignment_COM4008_Alex_and_Saif')
-        #hello agsgvbc
+
 
         # background
         self.bg = self.create_bg()
