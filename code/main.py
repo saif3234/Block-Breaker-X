@@ -7,22 +7,22 @@ from random import choice, randint
 class Game:
     def __init__(self):
 
-        # general setup
+        # setup
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
         pygame.display.set_caption('Assignment_COM4008_Alex_and_Saif')
-#Alexxxxxxxxx
+        
 
-        # background
+        # Creation of background
         self.bg = self.create_bg()
 
-        # sprite group setup
+        # sprite setup
         self.all_sprites = pygame.sprite.Group()
         self.block_sprites = pygame.sprite.Group()
         self.upgrade_sprites = pygame.sprite.Group()
         self.projectile_sprites = pygame.sprite.Group()
 
-        # setup
+        # surface maker setup
         self.surfacemaker = SurfaceMaker()
         self.player = Player(self.all_sprites,self.surfacemaker)
         self.stage_setup()
@@ -36,26 +36,26 @@ class Game:
         self.can_shoot = True
         self.shoot_time = 0
 
-        # crt
+        # Sounds effects
         self.crt = CRT()
-
+        # laser sound
         self.laser_sound = pygame.mixer.Sound('../sounds/laser.wav')
         self.laser_sound.set_volume(0.1)
-
+        # power up sound
         self.powerup_sound = pygame.mixer.Sound('../sounds/powerup.wav')
         self.powerup_sound.set_volume(0.1)
-
+        # laser hit sound 
         self.laserhit_sound = pygame.mixer.Sound('../sounds/laser_hit.wav')
         self.laserhit_sound.set_volume(0.02)
-
+        # bg sound
         self.music = pygame.mixer.Sound('../sounds/music.wav')
         self.music.set_volume(0.1)
         self.music.play(loops= -1)
-
+        # upgrade creation
     def create_upgrade(self,pos):
         upgrade_type = choice(UPGRADES)
         Upgrade(pos,upgrade_type,[self.all_sprites,self.upgrade_sprites])
-
+        # Bckgruond was kind of long so we crop
     def create_bg(self):
         bg_original = pygame.image.load('../graphics/other/bg.png').convert()
         scale_factor = WINDOW_HEIGHT / bg_original.get_height()
@@ -65,7 +65,6 @@ class Game:
         return scaled_bg
     
     def stage_setup(self):
-        # cycle throught all rows and colums of BLOCK MAPS
         for row_index, row in enumerate(BLOCK_MAP):
             for col_index, col in enumerate(row):
                 if col != ' ':
@@ -73,18 +72,18 @@ class Game:
                     x = col_index * (BLOCK_WIDTH + GAP_SIZE) + GAP_SIZE // 2
                     y = TOP_OFFSET + row_index * (BLOCK_HEIGHT + GAP_SIZE) + GAP_SIZE // 2
                     Block(col,(x,y),[self.all_sprites,self.block_sprites],self.surfacemaker,self.create_upgrade)
-
+    # heats display 
     def display_hearts(self):
         for i in range (self.player.hearts):
             x = 2 + i * (self.heart_surf.get_width() + 2)
             self.display_surface.blit(self.heart_surf,(x,4))
-    
+    # Collision upgrade and power up sound
     def upgrade_collision(self):
         overlap_sprites = pygame.sprite.spritecollide(self.player,self.upgrade_sprites,True)
         for sprite in overlap_sprites:
             self.player.upgrade(sprite.upgrade_type)
             self.powerup_sound.play()
-
+    # projectile creation and the sound
     def create_projectile(self):
             self.laser_sound.play()
             for projectile in self.player.laser_rects:
@@ -92,11 +91,11 @@ class Game:
                     projectile.midtop - pygame.math.Vector2(0,30),
                     self.projectile_surf,
                     [self.all_sprites, self.projectile_sprites])
-
+    # laser timer so it cannot shoot quicker
     def laser_timer(self):
         if pygame.time.get_ticks() - self.shoot_time >= 500:
             self.can_shoot = True
-
+    # projectile block collision and its sound
     def projectile_block_collision(self):
         for projectile in self.projectile_sprites:
             overlap_sprites = pygame.sprite.spritecollide(projectile, self.block_sprites,False)
@@ -114,7 +113,7 @@ class Game:
             dt = time.time() - last_time
             last_time = time.time()
 
-            # event loop
+            # if player fails to hit the bar loses lives if not continues
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or self.player.hearts <= 0:
                     pygame.quit()
@@ -127,7 +126,7 @@ class Game:
                             self.can_shoot = False
                             self.shoot_time = pygame.time.get_ticks()
             
-            # Draw background
+            # Draw a background
             self.display_surface.blit(self.bg,(0,0))
             
             # update the game
@@ -135,7 +134,7 @@ class Game:
             self.upgrade_collision()
             self.laser_timer()
             self.projectile_block_collision()
-            # draw the frame
+            # draw the framess
             self.all_sprites.draw(self.display_surface)
             self.display_hearts()
 
@@ -144,21 +143,21 @@ class Game:
             
             # update window
             pygame.display.update()
-
+        # tv styling
 class CRT:
     def __init__(self):
         vignette = pygame.image.load('../graphics/other/tv.png').convert_alpha()
         self.scaled_vignette = pygame.transform.scale(vignette,(WINDOW_WIDTH,WINDOW_HEIGHT))
         self.display_surface = pygame.display.get_surface()
         self.create_crt_lines()
-
+        # lines creation
     def create_crt_lines(self):
         line_height = 4
         line_amount = WINDOW_HEIGHT // line_height
         for line in range(line_amount):
             y = line * line_height
             pygame.draw.line(self.scaled_vignette, (30,30,30), (0,y), (WINDOW_WIDTH,y),1)
-
+        # tv flickering (fps)
     def draw(self):
         self.scaled_vignette.set_alpha(randint(60,75))
         self.display_surface.blit(self.scaled_vignette,(0, 0))
