@@ -55,7 +55,7 @@ class Game:
     def create_upgrade(self,pos):
         upgrade_type = choice(UPGRADES)
         Upgrade(pos,upgrade_type,[self.all_sprites,self.upgrade_sprites])
-        # Bckgruond was kind of long so we crop
+        # Bckgruond was kind of long so we make it fit
     def create_bg(self):
         bg_original = pygame.image.load('../graphics/other/bg.png').convert()
         scale_factor = WINDOW_HEIGHT / bg_original.get_height()
