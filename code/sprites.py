@@ -6,9 +6,10 @@ class Upgrade(pygame.sprite.Sprite):
     def __init__(self,pos,upgrade_type,groups):
         super().__init__(groups)
         self.upgrade_type = upgrade_type
+        # upgrade type image
         self.image = pygame.image.load(f'../graphics/upgrades/{upgrade_type}.png').convert_alpha()
         self.rect = self.image.get_rect(midtop = pos)
-
+    
         self.pos = pygame.math.Vector2(self.rect.topleft)
         self.speed = 300
 
