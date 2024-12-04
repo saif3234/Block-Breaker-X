@@ -28,34 +28,36 @@ Enhance player abilities dynamically during gameplay.
 Projectiles:
 
 Shoot lasers using the paddle's laser array.
-Lasers interact with blocks to deal damage and destroy them.
-Game Logic:
+Blocks are damaged and destroyed by laser interaction.
 
-Tracks player health (hearts).
-Ends the game when health reaches zero.
-Music, sound effects (laser, collision, power-ups), and volume control are implemented.
+Logic of Games:
 
-Block Layout:
+keeps track of players' hearts.
+Upon reaching 0 health, the game is terminated.
+Volume control, sound effects (such as laser, collision, and power-ups), and music are all included.
 
-Predefined block map with gaps between blocks for level design.
-Flexible scaling of block sizes based on the window and map configuration.
+Block Arrangement:
 
-Graphics and Styling:
+A pre-made block map for level creation that has spaces between blocks.
+Block size scaling is flexible and depends on the map and window setup.
 
-Dynamic surfaces created for blocks, player paddle, and other assets using SurfaceMaker.
-Includes vignette-style CRT overlay for a retro aesthetic.
+Style and Graphics:
 
+Using SurfaceMaker, dynamic surfaces were produced for the player paddle, blocks, and other elements.
+has a vignette-style CRT overlay for a vintage look.
 
-Requirements:
+Needs:
 
-Hardware/Software - Python 3.x with the pygame library installed.
-The system has sufficient resolution to display a 1280x720 window.
+Python 3.x with the pygame library installed is the hardware/software combination.
+The resolution of the machine is adequate to show a window that is 1280x720.
 
-Assets - Image files for blocks, upgrades, paddle, ball, projectiles, and background.
-Sound files for music, lasers, impact, failure, and power-ups.
+Assets:
+Picture files for the backdrop, paddle, ball, missiles, blocks, upgrades, and more.
+Music, lasers, impact, failure, and power-up sound files.
 
-Code Organization - Modular structure with separate settings, sprites, surface generation, and main game loop files.
-Expandable upgrade and block types using dictionaries and lists.
+Code Organisation: 
+The core game loop files, sprites, settings, and surface generation are all organised in a modular fashion.
+Using dictionaries and lists, expandable upgrade and block types are possible.
 
-Gameplay Controls - Arrow keys for paddle movement.
-Spacebar to activate the ball or fire lasers.
+Arrow keys are used to move the paddle throughout the game.
+Use the spacebar to shoot lasers or activate the ball.
