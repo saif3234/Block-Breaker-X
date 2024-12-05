@@ -61,3 +61,4 @@ Using dictionaries and lists, expandable upgrade and block types are possible.
 
 Arrow keys are used to move the paddle throughout the game.
 Use the spacebar to shoot lasers or activate the ball.
+
