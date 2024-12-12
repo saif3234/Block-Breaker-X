@@ -27,21 +27,20 @@ class Game:
         self.ball = Ball(self.all_sprites, self.player, self.block_sprites)
 
         # Heart and projectile graphics
-        self.heart_surf = pygame.image.load('../graphics/other/heart.png').convert_alpha()
-        self.projectile_surf = pygame.image.load('../graphics/other/projectile.png').convert_alpha()
+        self.heart_surf = pygame.image.load('../graphics/other/redhearts.png').convert_alpha()
+        self.projectile_surf = pygame.image.load('../graphics/other/orangeprojectile.png').convert_alpha()
 
         # Shooting control
         self.can_shoot = True
         self.shoot_time = 0
 
-        # CRT effect setup
-        self.crt = CRT()
+
 
         # Sound effects
-        self.laser_sound = self.setup_sound('../sounds/laser.wav', 0.1)
-        self.powerup_sound = self.setup_sound('../sounds/powerup.wav', 0.1)
-        self.laserhit_sound = self.setup_sound('../sounds/laser_hit.wav', 0.02)
-        self.music = self.setup_sound('../sounds/music.wav', 0.1, play=True, loop=True)
+        self.laser_sound = self.setup_sound('../sounds/thelaser.wav', 0.1)
+        self.powerup_sound = self.setup_sound('../sounds/thepowerups.wav', 0.1)
+        self.laserhit_sound = self.setup_sound('../sounds/thelaserhits.wav', 0.02)
+        self.music = self.setup_sound('../sounds/thebackgroundmusic.wav', 0.1, play=True, loop=True)
 
     def setup_sound(self, path, volume, play=False, loop=False):
         # Utility to load and configure sound effects
@@ -58,7 +57,7 @@ class Game:
 
     def create_bg(self):
         # Load and scale the background image dynamically
-        bg_image = pygame.image.load('../graphics/other/bg.png').convert()
+        bg_image = pygame.image.load('../graphics/other/mainbackground.png').convert()
         scale_factor = WINDOW_HEIGHT / bg_image.get_height()
         new_width = int(bg_image.get_width() * scale_factor)
         new_height = int(bg_image.get_height() * scale_factor)
@@ -137,32 +136,10 @@ class Game:
             self.laser_timer()
             self.projectile_block_collision()
             self.all_sprites.draw(self.display_surface)
-            self.display_hearts()
-            self.crt.draw()
+            self.display_hearts()  
 
             # Refresh the display
             pygame.display.update()
-
-class CRT:
-    def __init__(self):
-        # Set up the CRT effect
-        vignette = pygame.image.load('../graphics/other/tv.png').convert_alpha()
-        self.scaled_vignette = pygame.transform.scale(vignette, (WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.display_surface = pygame.display.get_surface()
-        self.create_crt_lines()
-
-    def create_crt_lines(self):
-        # Draw horizontal CRT lines
-        line_height = 4
-        num_lines = WINDOW_HEIGHT // line_height
-        for line in range(num_lines):
-            y_pos = line * line_height
-            pygame.draw.line(self.scaled_vignette, (30, 30, 30), (0, y_pos), (WINDOW_WIDTH, y_pos), 1)
-
-    def draw(self):
-        # Apply CRT effect with randomized transparency
-        self.scaled_vignette.set_alpha(randint(60, 75))
-        self.display_surface.blit(self.scaled_vignette, (0, 0))
 
 if __name__ == "__main__":
     game = Game()
